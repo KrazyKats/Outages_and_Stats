@@ -1,4 +1,4 @@
-# I am an example ReadME
+# Outages, Are Urban areas less affected and can we predict how many people are affected
 
 Random Readme Generator This is a simple tool to generate random README files for your projects. It can be useful when you need placeholder text or want to quickly create a README file template.
 
