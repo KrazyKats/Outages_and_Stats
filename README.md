@@ -80,22 +80,20 @@ This changed helped to agregate some of the data so allow for analysis of the da
 ### Univariate Analysis
 
 In my initial look at the data, I decided to look at the distributions of the Outage Duration of the entire data set and the Outage Duration of California State to see if there seemed to  be a significant difference
-
 <iframe
   src="Website_Resources/uni_1_1.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
+Now I plotted the distribution of California data points.
 <iframe
   src="Website_Resources/uni_1_2.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
-
 After, I wanted to look at the trends of Outage Duration means over the Years and see if there was a posistive or negative trend in the data.
-
 <iframe
   src="Website_Resources/uni_2_1.html"
   width="800"
@@ -182,7 +180,6 @@ For this pivot table, I was interested in looking at the output variables, the v
 | Wisconsin            |             45876    |        161       |         7904.11   |
 | Wyoming              |             11833.3  |         26.75    |           33.3333 |
 
-
 # Assessment of Missingness
 
 ## NMAR Analysis
@@ -199,8 +196,8 @@ First, I examine the distribution of Cause Category when Duration is missing vs 
 
 **Alternate Hypothesis:** The distribution of Cause Category is different when Duration is missing vs not missing.
 
-
  I found an observed TVD of 0.444 which has a p value of 0.0. The empirical distribution of the TVDs is shown below. At this value, I reject the null hypothesis in favor of the alternate hypothesis, which is that the distribution of Cause Category is significantly different when Duration is missing vs not, indicating that the missingness of Duration is dependent on Cause Category.
+
 <iframe
   src="Website_Resources/missing_MAR.html"
   width="800"
@@ -223,7 +220,6 @@ I found an observed TVD of 0.143. This had a p value of 0.1756. The empirical di
   height="600"
   frameborder="0"
 ></iframe>
-
 
 # Hypothesis Testing
 I will be testing whether the outage duration is greater on average for severe weather outages over intentional attack outages. The relevant columns for this test are `OUTAGE.DURATION` and `CAUSE.CATEGORY`. I will only be using the outages where `CAUSE.CATEGORY` is equal to 'severe weather' or 'intentional attack'.
