@@ -126,32 +126,68 @@ I did a similar plot between `'Customer Affected'` vs `'Number of Customers'`.
 Surprisingly enough, there seems to be very little correlation between the variables given the intuition that the number of customers would correlate in a similar rise in customers affected in a given power outage and also as time increases, the number of people likely to be affected increases as they either need to use teh electricity at a certain time or have a higher chance to use an electronic device.
 
 ### Grouping and Aggregates
-I grouped by NERC Region and then performed an aggregate function mean() to get the average severity metrics for each region. The severity metrics are Outage Duration, Customers Affected, and Demand Loss. The first few rows of this DataFrame are shown below:
 
-| NERC.REGION   |   OUTAGE.DURATION |   CUSTOMERS.AFFECTED |   DEMAND.LOSS.MW |
-|:--------------|------------------:|---------------------:|-----------------:|
-| ASCC          |           nan     |                14273 |           35     |
-| ECAR          |          5603.31  |               256354 |         1314.48  |
-| FRCC          |          4271.12  |               375007 |         1072.6   |
-| FRCC, SERC    |           372     |                  nan |          nan     |
-| HECO          |           895.333 |               126729 |          466.667 |
+For this pivot table, I was interested in looking at the output variables, the variables relating to the severity of the outages, and their changes across the States. For this, I used a simple average of all the values in a given state's variables and stored it as a value in a cell on the pivot table. Here we can see that the average customers affected and Demand Lost increases in Urban States while Outage Duration is higher in those Rural States.
 
-I also performed grouping with a pivot table, on Climate Region and Cause Category to see which regions experienced severe weather outages the most. The first few rows of this data frame are shown below:
+| U.S._STATE           |   CUSTOMERS.AFFECTED |   DEMAND.LOSS.MW |   OUTAGE.DURATION |
+|:---------------------|---------------------:|-----------------:|------------------:|
+| Alabama              |             94328.8  |        291.5     |         1152.8    |
+| Alaska               |             14273    |         35       |          nan      |
+| Arizona              |             64402.7  |       1245.7     |         4552.92   |
+| Arkansas             |             47673.8  |        149.9     |         1514.36   |
+| California           |            201366    |        667.595   |         1666.34   |
+| Colorado             |             41060.6  |        154.636   |          901.071  |
+| Connecticut          |             60339.2  |         36.4286  |         1278.83   |
+| Delaware             |              3475    |          4.13043 |          144.925  |
+| District of Columbia |            194709    |       1280       |         4303.6    |
+| Florida              |            289369    |        804.575   |         4094.67   |
+| Georgia              |            120680    |        494.75    |         1345.41   |
+| Hawaii               |            147237    |        536       |          845.4    |
+| Idaho                |              5833.33 |        116.5     |          414.625  |
+| Illinois             |            207027    |        214.222   |         1602.45   |
+| Indiana              |             69551.4  |        301.524   |         3521.64   |
+| Iowa                 |             94000    |        337.5     |         4793.75   |
+| Kansas               |            108000    |        250       |         4376.29   |
+| Kentucky             |            130531    |        207       |         5093.92   |
+| Louisiana            |            151003    |        224.471   |         4084.55   |
+| Maine                |             54839.4  |         38.125   |         1097.06   |
+| Maryland             |            120535    |        357.5     |         2313.09   |
+| Massachusetts        |             77983.4  |       2392.2     |          944.167  |
+| Michigan             |            152878    |        696.549   |         5302.98   |
+| Minnesota            |            124007    |         69       |         2727.93   |
+| Mississippi          |              5000    |         15       |           84      |
+| Missouri             |             50611.1  |        156.455   |         3374.07   |
+| Montana              |               nan    |        nan       |           54      |
+| Nebraska             |             87070.7  |        385.75    |         2455.75   |
+| Nevada               |             22220    |         14       |          553.286  |
+| New Hampshire        |             13869.8  |          0       |          279.643  |
+| New Jersey           |            160217    |        140.056   |         4450.91   |
+| New Mexico           |            166667    |        346.667   |          140.375  |
+| New York             |            190676    |       1283.15    |         6034.96   |
+| North Carolina       |             99624.8  |        914.37    |         1457.28   |
+| North Dakota         |             34500    |        902.5     |          720      |
+| Ohio                 |            136783    |       1057.32    |         2867.86   |
+| Oklahoma             |            160683    |        178.5     |         3019.09   |
+| Oregon               |             43958.6  |         67.1111  |          766.68   |
+| Pennsylvania         |            168537    |        225.263   |         3811.7    |
+| South Carolina       |            251913    |       1699.71    |         3135      |
+| South Dakota         |               nan    |        228.5     |          120      |
+| Tennessee            |             59317.4  |        356.154   |         1041.97   |
+| Texas                |            223232    |        552.083   |         2704.82   |
+| Utah                 |             10227.7  |        186.048   |          250.22   |
+| Vermont              |                 0    |          0       |           35.4444 |
+| Virginia             |            149429    |        521.3     |         1051.19   |
+| Washington           |            101944    |        214.195   |         1508.15   |
+| West Virginia        |            179794    |        362       |         6979      |
+| Wisconsin            |             45876    |        161       |         7904.11   |
+| Wyoming              |             11833.3  |         26.75    |           33.3333 |
 
-| CLIMATE.REGION     |   equipment failure |   fuel supply emergency |   intentional attack |   islanding |   public appeal |   severe weather |   system operability disruption |
-|:-------------------|--------------------:|------------------------:|---------------------:|------------:|----------------:|-----------------:|--------------------------------:|
-| Central            |                   7 |                       4 |                   38 |           3 |               2 |              135 |                              11 |
-| East North Central |                   3 |                       5 |                   20 |           1 |               2 |              104 |                               3 |
-| Northeast          |                   5 |                      14 |                  135 |           1 |               4 |              176 |                              15 |
-| Northwest          |                   2 |                       1 |                   89 |           5 |               2 |               29 |                               4 |
-| South              |                  10 |                       7 |                   28 |           2 |              42 |              113 |                              27 |
 
 # Assessment of Missingness
 
 ## NMAR Analysis
-Several columns contain missing data in the data set, but one of these columns that is likely NMAR is `CUSTOMERS.AFFECTED`. This is because the missingness is likely due to the data collection method, which aggregates data from a variety of sources. If certain companies did not report the number of customers that were affected, then there would be missing values.
 
-Additional data I could collect to determine if `CUSTOMERS.AFFECTED` is MAR is to collect the individual reporting companies for each outage, and then conduct analysis to see whether the missingness of the customers is dependent on the company.
+A column I would suspect is NMAR could be the `DEMAND.LOSS.MV` Column. I would say this because the Demand would most likely only be calcuated if there was historical data from a given area affected that would allow the utilities to estimate Demand lost. Furthermore, the data also noted that total demand would be submitted most of the time so the missingness is based on whether the companies would give the correct data which is not shown in the data set. Thus, we could not tell if the data is completely missing at random or if it is dependent on somehting else as the report clearly states that the missingness is based on the correct data being recieved or not.
 
 ## Missingness Dependency
 To test missingness dependency, I will focus on the distribution of `OUTAGE.DURATION`. I will test this against the columns `CAUSE.CATEGORY` and `MONTH`.
