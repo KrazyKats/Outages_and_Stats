@@ -73,53 +73,57 @@ The first few rows of this cleaned DataFrame are shown below, with a portion of 
 |   2012 |       6 | Minnesota    |MRO           | East North Central |            -0.1 | normal             | 2012-06-19 04:30:00 | 2012-06-20 23:00:00       | severe weather     |              2550 |                68200 | 5.78706e+06 |      31.9941 |      33.5433 |      34.4393 |         2317336 |          278466 |           11010 |           2606813 |    5380443 |
 |   2015 |       7 | Minnesota    |MRO           | East North Central |             1.2 | warm               | 2015-07-18 02:00:00 | 2015-07-19 07:00:00       | severe weather     |              1740 |               250000 | 5.97034e+06 |      33.9826 |      36.2059 |      29.7795 |         2374674 |          289044 |            9812 |           2673531 |    5489594 |
 
-
+This changed helped to agregate some of the data so allow for analysis of the date and time and looking at times, I was able to easily see which outages lasted for several days and thus see if that had any impact in the rest of the data such as if rural areas had more Duration compared to other areas. Statistically, it was easier to look at the Outage Duration category by in terms of human reading, the start and end dates haveing both date and time together was easier to look at as a human.
 
 ## Exploratory Data Analysis
 
 ### Univariate Analysis
-In my exploratory data analysis, I first perform univariate analysis to examine the distribution of single variables.
 
-First, I wanted to see how the number of outages has changed over time.
+In my initial look at the data, I decided to look at the distributions of the Outage Duration of the entire data set and the Outage Duration of California State to see if there seemed to  be a significant difference
+
 <iframe
-  src="assets/outage_over_time.html"
+  src="Website_Resources/uni_1_1.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
-I also wanted to see the distribution of major causes of power outages.
 <iframe
-  src="assets/major_causes.html"
+  src="Website_Resources/uni_1_2.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
-Then, I wanted to see the distribution of the number of outages by each U.S. state.
+
+After, I wanted to look at the trends of Outage Duration means over the Years and see if there was a posistive or negative trend in the data.
+
 <iframe
-  src="assets/map1.html"
+  src="Website_Resources/uni_2_1.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
 
 ### Bivariate Analysis
-I conducted many bivariate analyses, and the most significant results are shown below.
 
-I examined the relationship between Outage Duration and Customers Affected, two metrics of the severity of a power outage. I expected there to be a positive correlation, since major outages likely affect a lot of customers and have a long duration, but there was variability within this. There are many outages that affected a lot of customers but were not as long, indicating that Customers Affected might be a better metric for measuring outage severity.
+To analyze the relation ship between variables in the data set, I did some Bivariate Analysis looking at the effects some variables had on the `'Customers Affected'` Variables.  The First scatter plot I made was of `'Customers Affected'` as a result of `'Outage Duration'`.
+
 <iframe
-  src="assets/duration_cust.html"
+  src="Website_Resources/bi_1.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
 
-The plot below shows the relation between outage duration and cause category. It shows that some of the outages with the longest duration were due to a fuel supply emergency.
+I did a similar plot between `'Customer Affected'` vs `'Number of Customers'`.
+
 <iframe
-  src="assets/duration_cause.html"
+  src="Website_Resources/bi_2.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
+
+Surprisingly enough, there seems to be very little correlation between the variables given the intuition that the number of customers would correlate in a similar rise in customers affected in a given power outage and also as time increases, the number of people likely to be affected increases as they either need to use teh electricity at a certain time or have a higher chance to use an electronic device.
 
 ### Grouping and Aggregates
 I grouped by NERC Region and then performed an aggregate function mean() to get the average severity metrics for each region. The severity metrics are Outage Duration, Customers Affected, and Demand Loss. The first few rows of this DataFrame are shown below:
