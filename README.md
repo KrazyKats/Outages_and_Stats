@@ -186,17 +186,20 @@ For this pivot table, I was interested in looking at the output variables, the v
 
 A column I would suspect is NMAR could be the `DEMAND.LOSS.MV` Column. I would say this because the Demand would most likely only be calcuated if there was historical data from a given area affected that would allow the utilities to estimate Demand lost. Furthermore, the data also noted that total demand would be submitted most of the time so the missingness is based on whether the companies would give the correct data which is not shown in the data set. Thus, we could not tell if the data is completely missing at random or if it is dependent on somehting else as the report clearly states that the missingness is based on the correct data being recieved or not.
 
+Furthermore, We do not not if there were other reasons why the data may not be there. We could look into finding whether the company reporting the data has data about the peak usages of tehor comunities and use that information to determine causes of teh missing data thus making it MAR.
+
 ## Missingness Dependency
-To test missingness dependency, I will focus on the distribution of `OUTAGE.DURATION`. I will test this against the columns `CAUSE.CATEGORY` and `MONTH`.
+To test missingness dependency, I will focus on the Missingness of `OUTAGE.DURATION`. I will test this against the columns `NERC.REGION` and `MONTH`.
 
-### Cause Category
-First, I examine the distribution of Cause Category when Duration is missing vs not missing.
+### Nerc Region
 
-**Null Hypothesis:** The distribution of Cause Category is the same when Duration is missing vs not missing.
+We will begin by seeing the Missingness of `OUTAGE.DURATION` in relation to `NERC.REGION`.
 
-**Alternate Hypothesis:** The distribution of Cause Category is different when Duration is missing vs not missing.
+**Null Hypothesis:** The distribution of `NERC.REGION` is the same whether `OUTAGE.DURATION` is missing or not missing.
 
- I found an observed TVD of 0.444 which has a p value of 0.0. The empirical distribution of the TVDs is shown below. At this value, I reject the null hypothesis in favor of the alternate hypothesis, which is that the distribution of Cause Category is significantly different when Duration is missing vs not, indicating that the missingness of Duration is dependent on Cause Category.
+**Alternate Hypothesis:** The distribution of `NERC.REGION` is different whether `OUTAGE.DURATION` is missing or not missing.
+
+For this test, I got a TVD of 0.315 which resulted in a p-value of 0. From this test, We were able to say that the Missingness of the `OUTAGE.DURATION` column is dependent on the `NERC.REGION` column. This shows that there is evidence that certain region are likely to be missing data on their outage duration more than others and that a given missing value may be more likely to be from one or many regions but not others.
 
 <iframe
   src="Website_Resources/missing_MAR.html"
@@ -206,14 +209,15 @@ First, I examine the distribution of Cause Category when Duration is missing vs 
 ></iframe>
 
 ### Month
-Next, I examined the dependency of Duration missing on another column, `MONTH`.
-**Null Hypothesis:** The distribution of Month is the same when Duration is missing vs not missing.
 
-**Alternate Hypothesis:** The distribution of Month is different when Duration is missing vs not missing.
+For this test, I will see if the missingness of `OUTAGE.DURATION` is dependent on the `MONTH` Column
 
-Here is the distribution of Month when Duration is missing vs not missing.
+**Null Hypothesis:** The distribution of `MONTH` is the same whether `OUTAGE.DURATION` is missing or not missing.
 
-I found an observed TVD of 0.143. This had a p value of 0.1756. The empirical distribution of the TVDs is shown below. At this value, I fail to reject the null hypothesis in favor of the alternate hypothesis. The distribution of Month is not significantly different when Duration is missing vs not, indicating that the missingness of Duration is not dependent on Month.
+**Alternate Hypothesis:** The distribution of `MONTH` is different whether `OUTAGE.DURATION` is missing or not missing.
+
+For this test, I got a TVD of 0.315 which resulted in a p-value of 0. From this test, We were able to say that the Missingness of the `OUTAGE.DURATION` column is dependent on the `NERC.REGION` column. This test provides that there is no evidence that the `OUTAGE.DURATION` missingness is dependent on the `MONTHS` column which means that we fail to reject the null hypothesis so we conclude that the The distribution of `MONTH` is the same whether `OUTAGE.DURATION` is missing or not missing.
+
 <iframe
   src="Website_Resources/missing_MCAR.html"
   width="800"
@@ -243,11 +247,10 @@ The plot below shows the observed difference against the empirical distribution 
 ></iframe>
 
 # Framing a Prediction Problem
-My model will try to predict the cause of a power outage. This will be a binary classification because we are only focusing on outages cause by severe weather or intentional attacks.
 
-The metric I am using the evaluate my model is the F1 score, because there is an imbalance within the classes so this will most effectively balance that out and incorporate both the precision and recall.
+While Outage Duration is a good classifier for how extreme an outage is, most companies would be more interested in the effects it has on customers and how whether they are more likely to complain. Thus, we will be using the given data and predicting how many customers are affected. This will help the companies to identify events that are more likely to affect more people. From there, the companies may seek to create new methods to counter act on these specific predictive variables.
 
-At the time of prediction, we would know the state, NERC region, climate region, anomaly level, year, month, total sales, total price, total customers, and the urban factor. This information will allow us to predict what the cause of a major power outage is.
+Looking at inital models, I saw that much of the data seems very much skewed by extremely low values that happen very often and a few outlier high values. This has resulted in very high RMSE values and overall a bad predictor for what is creates a high amount of affected customers. To remedy this, I will do a classification model and define a new variable "High_Risk_Customers" as a Binary classification of whether a certain event will have more than a certain number of affected customers thus the model will focus on identifying these communities and risk factors rather than trying to accurately predicting the values.
 
 # Baseline Model
 My model is a binary classifier using the features NERC Region, Anomaly level, Year, and Urban factor to predict whether a major outage is caused by severe weather or an intentional attack. This information would provide companies with how to approach energy infrastructure problems and decide whether to devote resources to better security against attacks or better protection from severe weather.
